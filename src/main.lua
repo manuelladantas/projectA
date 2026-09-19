@@ -1,10 +1,11 @@
 local json = require "dkjson"
 
 require("src.hud.hud")
+require("src.hud.board")
 require("src.client.network")
 
 function love.load()
-    SetupHud()
+    Hud.setupHud()
     Client.startConnection()
 end
 
@@ -13,5 +14,5 @@ function love.update(dt)
 end
 
 function love.draw()
-    love.graphics.rectangle("fill", 100, 100, 200, 200, 16, 15)
+    Board.draw()
 end

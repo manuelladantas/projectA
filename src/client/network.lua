@@ -1,6 +1,6 @@
 local enet = require "enet"
-local TIMEOUT = 5000 -- 5s connection timeout
-local MAX_RETRIES = 3
+local TIMEOUT = 1000 -- 5s connection timeout
+local MAX_RETRIES = 0
 Client = {
   connected = false
 }
