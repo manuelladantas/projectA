@@ -5,22 +5,22 @@ Client = {
   connected = false
 }
 
-function Client.startConnection(self)
+function Client.startConnection()
   -- `startConnection` should be called once at love.load
 
   host = enet.host_create()
   peer_host = host:connect("localhost:1337")
 
-  self.connected = false
+  Client.connected = false
   local retries = 0
-  while not self.connected and retries < MAX_RETRIES do
+  while not Client.connected and retries < MAX_RETRIES do
     event = host:service(TIMEOUT)
     if event then
       print("Server detected")
       if event.type == "connect" then 
         print(event.peer, "connected.")
-        self.connected = true
-        self.peer = event.peer
+        Client.connected = true
+        Client.peer = event.peer
         Client.onConnected(event)
       end
     else
