@@ -9,29 +9,11 @@ description = {
 }
 dependencies = {
    "lua ~> 5.5",
-   queries = {
-      {
-         constraints = {
-            {
-               op = "~>",
-               version = {
-                  5, 5, string = "5.5"
-               }
-            }
-         },
-         name = "lua"
-      }
-   }
-}
-build_dependencies = {
-   queries = {}
+   "dkjson ~> 2.11",
 }
 build = {
    type = "builtin",
    modules = {
-      main = "main.lua"
+      main = "src/main.lua"
    }
-}
-test_dependencies = {
-   queries = {}
 }
