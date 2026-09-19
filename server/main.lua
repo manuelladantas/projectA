@@ -1,10 +1,16 @@
-require("network")
+LUA_VERSION = "5.5"
 
-function love.load()
-    io.stdout:setvbuf("no")
-    Server.start()
-end
+love.filesystem.setRequirePath(table.concat({
+    love.filesystem.getRequirePath(),
+    table.concat({ ";lua_modules/share/lua/", LUA_VERSION, "/?.lua" }),
+    table.concat({ ";lua_modules/share/lua/", LUA_VERSION, "/?/init.lua" }),
+    ";src/?.lua",
+}))
 
-function love.update(dt)
-    Server.tick(dt)
-end
+love.filesystem.setCRequirePath(table.concat({
+    love.filesystem.getCRequirePath(),
+    table.concat({ ";lua_modules/lib/lua/", LUA_VERSION, "/??" }),
+    ";lib/??",
+}))
+
+require("server")

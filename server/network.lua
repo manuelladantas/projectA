@@ -1,6 +1,9 @@
 
 Server = {}
 local enet = require "enet"
+local json = require "lunajson"
+require("router")
+
 local address, port = "*", 1337
 local connectedPeers = {}
 local serverTime = 0
@@ -16,9 +19,12 @@ function Server.onReceive(event)
   -- event.channel -> number
   print('received message: ', event.data, event.peer, event.channel)
 
-  -- add actions for the service here
-  -- TODO: a router for server actions
-  -- TODO: State control for peers
+  local obj, _, err = json.decode(event.data)
+  if err then
+    print ("Fail to parse message. Error:", err)
+  else
+    Router.handle(obj.action, event.peer, obj.data)
+  end
 end
 
 function Server.onConnect(event)
