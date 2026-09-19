@@ -4,7 +4,7 @@ RoomService = {
   rooms = {}
 }
 
-function RoomService.joinRoom(peer, data)
+function JoinRoom(peer, data)
   for _, room in ipairs(RoomService.rooms) do
     if room:hasSeats() then
       room:addPeer(peer)
@@ -13,7 +13,7 @@ function RoomService.joinRoom(peer, data)
   end
 
   newRoom = Room:new()
-  newRoom.addPeer(peer)
-  table.insert(RoomService.rooms, newRoom)
+  newRoom:addPeer(peer)
+  table.insert(RoomService.rooms, 1, newRoom)
   return newRoom.rid
 end

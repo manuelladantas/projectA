@@ -4,7 +4,7 @@ require("actions.room")
 
 function love.load()
     io.stdout:setvbuf("no")
-    Router.addCallback("joinRoom", RoomService.joinRoom)
+    Router.addCallback("joinRoom", JoinRoom)
 
     Server.start()
 end

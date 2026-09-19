@@ -1,4 +1,4 @@
-local json = require "dkjson"
+local json = require "lunajson"
 
 require("src.client.network")
 

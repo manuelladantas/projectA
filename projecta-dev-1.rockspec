@@ -9,7 +9,7 @@ description = {
 }
 dependencies = {
    "lua ~> 5.5",
-   "dkjson ~> 2.11",
+   "lunajson ~> 1.2.3",
 }
 build = {
    type = "builtin",

@@ -1,4 +1,5 @@
 local enet = require "enet"
+local json = require "lunajson"
 local TIMEOUT = 1000 -- 5s connection timeout
 local MAX_RETRIES = 1
 Client = {
@@ -73,6 +74,7 @@ function Client.onConnected(event)
   -- event.peer -> table "peer" https://love2d.org/wiki/enet.peer
 
   print("Client Connected to Server: ", event.data, event.peer)
+  event.peer:send(json.encode({action="joinRoom", data=event.data}))
 end
 
 function Client.onDisconnect(event)
