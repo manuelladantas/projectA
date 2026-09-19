@@ -3,7 +3,7 @@ local json = require "dkjson"
 require("src.client.network")
 
 function love.load()
-    Client.startConnection()
+    Client:startConnection()
 end
 
 function love.update(dt)

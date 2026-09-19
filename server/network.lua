@@ -47,12 +47,14 @@ function Server.tick(dt)
   event = host:service()
   while event do
     if event.type == "receive" then
-      Server.onConnect(event)
-      event.peer:send( "pong" )
+      print(event.peer, "sent a message.")
+      Server.onReceive(event)
     elseif event.type == "connect" then
       print(event.peer, "connected.")
+      Server.onConnect(event)
     elseif event.type == "disconnect" then
       print(event.peer, "disconnected.")
+      Server.onDisconnect(event)
     end
     event = host:service()
   end

@@ -5,22 +5,23 @@ Client = {
   connected = false
 }
 
-function Client.startConnection()
+function Client.startConnection(self)
   -- `startConnection` should be called once at love.load
 
   host = enet.host_create()
   peer_host = host:connect("localhost:1337")
 
-  Client.connected = false
+  self.connected = false
   local retries = 0
-  while not Client.connected and retries < MAX_RETRIES do
+  while not self.connected and retries < MAX_RETRIES do
     event = host:service(TIMEOUT)
     if event then
       print("Server detected")
       if event.type == "connect" then 
         print(event.peer, "connected.")
-        Client.connected = true
-        Client.peer = event.peer
+        self.connected = true
+        self.peer = event.peer
+        Client.onConnected(event)
       end
     else
       retries = retries + 1
@@ -29,8 +30,7 @@ function Client.startConnection()
 
   if(not Client.connected) then
       print("Failed to Connect: Time Out")
-      peer_host:disconnect()
-      host:flush()
+      Client.disconnect(nil)
   else
       print("Connection successful")
   end
@@ -48,15 +48,16 @@ function Client.tick(dt)
         Client.onMessageReceived(event)
       elseif(event.type == "disconnect") then
         print("Disconnected: Server Closed")
-        Client.disconnect()
+        Client.disconnect(event)
       end
       event = host:service() -- flush queue
   end
 end
 
-function Client.disconnect()
-    if(peer_host) then peer_host:disconnect() end
-    if(host) then host:flush() end
+function Client.disconnect(event)
+  if(peer_host) then peer_host:disconnect() end
+  if(host) then host:flush() end
+  if event then Client.onDisconnect(event) end
 end
 
 function Client.onMessageReceived(event)
@@ -65,4 +66,18 @@ function Client.onMessageReceived(event)
   -- event.channel -> number
 
   print("Message Received: ", event.data, event.peer)
+end
+
+function Client.onConnected(event)
+  -- event.data -> number
+  -- event.peer -> table "peer" https://love2d.org/wiki/enet.peer
+
+  print("Client Connected to Server: ", event.data, event.peer)
+end
+
+function Client.onDisconnect(event)
+  -- event.data -> number
+  -- event.peer -> table "peer" https://love2d.org/wiki/enet.peer
+
+  print("Client Disconnected from Server: ", event.data, event.peer)
 end
