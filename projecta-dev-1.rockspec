@@ -8,14 +8,14 @@ description = {
    license = "*** please specify a license ***"
 }
 dependencies = {
-   "lua ~> 5.1",
+   "lua ~> 5.5",
    queries = {
       {
          constraints = {
             {
                op = "~>",
                version = {
-                  5, 1, string = "5.1"
+                  5, 5, string = "5.5"
                }
             }
          },
