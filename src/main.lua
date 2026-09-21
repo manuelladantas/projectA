@@ -42,6 +42,7 @@ end
 
 function love.update(dt)
     Client.tick(dt)
+    require("lurker").update()
 end
 
 function love.draw()
