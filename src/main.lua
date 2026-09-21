@@ -1,25 +1,42 @@
-local json = require "dkjson"
-
 require("src.hud.hud")
 require("src.hud.board")
 require("src.client.network")
 
+local board = Board:new({
+    text = "defora",
+    lines = 6,
+    columns = 5,
+    startX = 50,
+    startY = 50,
+    gapX = 10,
+    gapY = 10,
+    size = 70,
+    boardMatrix = {
+        {nil, nil,nil, nil, nil},
+        {nil, nil,nil, nil, nil},
+        {nil, nil,nil, nil, nil},
+        {nil, nil,nil, nil, nil},
+        {nil, nil,nil, nil, nil},
+        {nil, nil,nil, nil, nil}
+    },
+    word = {},
+    currentLine = 1
+})
+
 function love.load()
-    Hud.setupHud()
-    Board.mount()
+    Hud.load()
+    board:mount()
     Client.startConnection()
 end
 
--- TODO: Mover isso para o main e chamar as instancias
 function love.textinput(t)
-    Board.updateWord(t)
+    board:updateWord(t)
 end
 
--- TODO: Mesmo aqui
 function love.keypressed(key)
     print("Press: ", key)
     if key == "backspace" then
-       Board.removeWord()
+       board:removeWord()
     end
 end
 
@@ -28,5 +45,5 @@ function love.update(dt)
 end
 
 function love.draw()
-    Board.draw()
+    board:draw()
 end
