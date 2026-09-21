@@ -2,26 +2,7 @@ require("src.hud.hud")
 require("src.hud.board")
 require("src.client.network")
 
-local board = Board:new({
-    text = "defora",
-    lines = 6,
-    columns = 5,
-    startX = 50,
-    startY = 50,
-    gapX = 10,
-    gapY = 10,
-    size = 70,
-    boardMatrix = {
-        {nil, nil,nil, nil, nil},
-        {nil, nil,nil, nil, nil},
-        {nil, nil,nil, nil, nil},
-        {nil, nil,nil, nil, nil},
-        {nil, nil,nil, nil, nil},
-        {nil, nil,nil, nil, nil}
-    },
-    word = {},
-    currentLine = 1
-})
+local board = Board:new()
 
 function love.load()
     Hud.load()
@@ -37,6 +18,15 @@ function love.keypressed(key)
     print("Press: ", key)
     if key == "backspace" then
        board:removeWord()
+    end
+    if key == "left" then
+        board:moveCursor("back")
+    end
+    if key == "right" then
+        board:moveCursor("next")
+    end
+    if key == "return" then
+        board:submitLine()
     end
 end
 
