@@ -1,9 +1,33 @@
-local json = require "dkjson"
-
+require("src.hud.hud")
+require("src.hud.board")
 require("src.client.network")
 
+local board = Board:new()
+
 function love.load()
+    Hud.load()
+    board:mount()
     Client.startConnection()
+end
+
+function love.textinput(t)
+    board:updateWord(t)
+end
+
+function love.keypressed(key)
+    print("Press: ", key)
+    if key == "backspace" then
+       board:removeWord()
+    end
+    if key == "left" then
+        board:moveCursor("back")
+    end
+    if key == "right" then
+        board:moveCursor("next")
+    end
+    if key == "return" then
+        board:submitLine()
+    end
 end
 
 function love.update(dt)
@@ -12,5 +36,5 @@ function love.update(dt)
 end
 
 function love.draw()
-    love.graphics.print(json.encode({ hello = "World" }), 20, 20)
+    board:draw()
 end
